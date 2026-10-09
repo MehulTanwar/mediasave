@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mediasave-api
+    runtime: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        sync: false   # set to your frontend URL, e.g. https://mediasave.pages.dev

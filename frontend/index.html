@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MediaSave: download media you own</title>
+  <meta name="description" content="Paste a link to a video or audio file you own or have permission to download, and save it. Public media only. No sign-in, no tracking.">
+  <meta name="theme-color" content="#0E3B43">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Public+Sans:wght@400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="./">MediaSave</a>
+    <nav aria-label="Main">
+      <a href="#platforms">Platforms</a><a href="#privacy">Privacy</a><a href="#faq">FAQ</a><a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Save media you have the right to keep.</h1>
+      <p class="lede">Paste a link to a video or audio file that is yours, or that you have permission to download. We fetch it and give you a file. It is deleted a few minutes later.</p>
+    </div>
+    <div class="wrap panel-wrap">
+      <div class="panel">
+        <form id="dl-form" novalidate>
+          <label class="title" for="url">Media link</label>
+          <div class="field">
+            <input id="url" name="url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://" aria-describedby="url-error" required>
+            <button class="primary" id="go" type="submit">Download</button>
+          </div>
+          <p class="field-error" id="url-error" role="alert" hidden></p>
+
+          <div class="opts">
+            <fieldset>
+              <legend>Save as</legend>
+              <span class="seg">
+                <label><input type="radio" name="mode" value="video" checked> Video</label>
+                <label><input type="radio" name="mode" value="audio"> Audio only</label>
+              </span>
+            </fieldset>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="consent" aria-describedby="consent-error">
+            <span>I own this media or have permission to download it, and I will follow the platform's terms.</span>
+          </label>
+          <p class="field-error" id="consent-error" role="alert" hidden></p>
+        </form>
+
+        <p class="status" id="status" aria-live="polite"></p>
+        <div class="alert" id="error" role="alert" hidden></div>
+
+        <article class="result" id="result" hidden>
+          <div id="thumb-slot"></div>
+          <div>
+            <p class="ready" id="ready" hidden>Your file is ready.</p>
+            <h3 id="r-title"></h3>
+            <p class="meta" id="r-meta"></p>
+            <a class="save" id="save" href="#" hidden download>Save file</a>
+            <p class="fine" id="r-fine" hidden></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="platforms" aria-labelledby="platforms-h">
+    <div class="wrap">
+      <h2 id="platforms-h">Supported platforms</h2>
+      <p>MediaSave reads links from the sites below, and only when the media is public. Whether a link works depends on the platform. Some sites block requests that come from servers, and some posts are only visible to logged-in viewers.</p>
+      <!-- Keep in sync with PLATFORM_DOMAINS in backend/main.py -->
+      <ul class="platforms">
+        <li><b>YouTube</b><span>Public videos you uploaded or may reuse</span></li>
+        <li><b>Vimeo</b><span>Public videos with downloads allowed</span></li>
+        <li><b>Dailymotion</b><span>Public videos</span></li>
+        <li><b>SoundCloud</b><span>Public tracks</span></li>
+        <li><b>Reddit</b><span>Public video posts</span></li>
+        <li><b>X (Twitter)</b><span>Public posts with video</span></li>
+        <li><b>TikTok</b><span>Public videos</span></li>
+        <li><b>Facebook</b><span>Public videos</span></li>
+        <li><b>Instagram</b><span>Public reels and posts</span></li>
+        <li><b>Twitch</b><span>Public clips</span></li>
+        <li><b>Bandcamp</b><span>Free and public streams</span></li>
+        <li><b>Internet Archive</b><span>Public-domain and open media</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="privacy" aria-labelledby="privacy-h">
+    <div class="wrap">
+      <h2 id="privacy-h">Privacy notice</h2>
+      <div class="two-col">
+        <div><h3>No accounts, no tracking</h3><p>MediaSave has no sign-up, no ads and no analytics scripts. We never ask for your passwords or cookies from any platform.</p></div>
+        <div><h3>Files are temporary</h3><p>Your file is stored on the server only so your browser can fetch it. It is deleted automatically after 5 minutes, or sooner if the server restarts.</p></div>
+        <div><h3>Minimal logs</h3><p>Server logs record the site name (for example, “youtube.com”) and whether a request succeeded. They do not record full links or file contents. Your IP address is held in memory for about a minute to limit abuse.</p></div>
+        <div><h3>Hosting providers</h3><p>The companies that host this site and its server may keep their own technical logs. Check their policies if that matters to you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <h2 id="faq-h">Frequently asked questions</h2>
+      <details><summary>What can I download here?</summary>
+        <p>Public videos and audio that you own, that are in the public domain, that carry a licence allowing reuse, or that the owner has given you permission to save.</p></details>
+      <details><summary>Can I download private, paid or members-only media?</summary>
+        <p>No. MediaSave never logs in on your behalf, so private, paywalled, subscriber-only and age-gated media will fail with a clear message.</p></details>
+      <details><summary>Does it work with DRM-protected content?</summary>
+        <p>No. Films and shows from streaming services use DRM. MediaSave does not remove or work around it.</p></details>
+      <details><summary>Why does my link say it's unavailable in my region?</summary>
+        <p>MediaSave does not hide its location or use proxies. If a platform restricts media by country, the link will not work here.</p></details>
+      <details><summary>What are the size and length limits?</summary>
+        <p>Files up to 200 MB and 60 minutes. Playlists, channels and live streams are not supported. Paste a link to one item at a time.</p></details>
+      <details><summary>Which formats do I get?</summary>
+        <p>Video is saved as MP4 where available. Audio is saved in the platform's original audio format, usually M4A or WebM. We don't convert files.</p></details>
+      <details><summary>The first download took a long time. Why?</summary>
+        <p>MediaSave runs on free hosting that sleeps when idle. The first request after a quiet period can take up to a minute while the server wakes up.</p></details>
+      <details><summary>Is downloading legal?</summary>
+        <p>That depends on who owns the media, your country's laws and the platform's terms. MediaSave is a tool for content you have rights to. You are responsible for how you use it.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>MediaSave. For media you own or are authorized to download.</span>
+    <span><a href="about.html">About</a> · <a href="#privacy">Privacy</a> · <a href="#faq">FAQ</a></span>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
